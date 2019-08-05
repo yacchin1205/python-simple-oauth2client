@@ -46,7 +46,7 @@ class SimpleOAuthClientCli:
             self.fetch_token_uri = arguments['--fetch_token_uri']
             self.scope = arguments['--scope']
             self.redirect_uri = arguments['--redirect_uri']
-            self.verify_ssl = not arguments['no_verify_ssl']
+            self.verify_ssl = not arguments['--no_verify_ssl']
             self.authorize()
         elif not arguments['--version'] and not arguments['--help']:
             try:
