@@ -17,7 +17,7 @@ from requests_oauthlib import OAuth2Session
 class SimpleOAuthClientAuth:
     def __init__(self, client_id, client_secret,
                  authorize_uri, fetch_token_uri,
-                 scope, redirect_uri,
+                 scope, redirect_uri, verify_ssl=True,
                  state=None, success_html=None,
                  failure_html=None):
         """ Initialize the OAuth2Session """
@@ -27,6 +27,7 @@ class SimpleOAuthClientAuth:
         self.fetch_token_uri = fetch_token_uri
         self.redirect_uri = redirect_uri
         self.scope = scope
+        self.verify_ssl = verify_ssl
         self.success_html = success_html if success_html else """
             <h1>You are now authorized to access the SimpleOAuthClient API!</h1>
             <h3>Access Token: {access_token}</h3>
@@ -60,7 +61,8 @@ class SimpleOAuthClientAuth:
         if self.state != state:
             raise MismatchingStateError()
         self.token = self.oauth.fetch_token(self.fetch_token_uri, code=code,
-                                            client_secret=self.client_secret)
+                                            client_secret=self.client_secret,
+                                            verify=self.verify_ssl)
         return self.token['access_token']
 
     def browser_authorize(self):

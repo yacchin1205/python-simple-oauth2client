@@ -3,7 +3,8 @@
 
 Usage:
   simple_oauthclient authorize --client_id=<client_id> --client_secret=<client_secret> --authorize_uri=<authorize_uri> \
---fetch_token_uri=<fetch_token_uri> --scope=<scope>... [--redirect_uri=<redirect_uri>] [--config=<config_file>]
+--fetch_token_uri=<fetch_token_uri> --scope=<scope>... \
+[--redirect_uri=<redirect_uri>] [--config=<config_file>] [--no_verify_ssl]
   simple_oauthclient --version
   simple_oauthclient --help
 
@@ -16,6 +17,7 @@ Options:
   --scope=<scope>                      Scopes separated by comma of your app.
   --redirect_uri=<redirect_uri>        Redirect URI of your app [default: http://127.0.0.1:8080/]
   --config=<config_file>               Use the config file specified [default: ./simple_oauthclient.cfg]
+  --no_verify_ssl                      Don't verify SSL certificate in fetch token (Optional)
 
 """
 from __future__ import absolute_import
@@ -44,6 +46,7 @@ class SimpleOAuthClientCli:
             self.fetch_token_uri = arguments['--fetch_token_uri']
             self.scope = arguments['--scope']
             self.redirect_uri = arguments['--redirect_uri']
+            self.verify_ssl = not arguments['no_verify_ssl']
             self.authorize()
         elif not arguments['--version'] and not arguments['--help']:
             try:
@@ -91,6 +94,7 @@ class SimpleOAuthClientCli:
             self.fetch_token_uri,
             self.scope,
             self.redirect_uri,
+            verify_ssl=self.verify_ssl
         )
         auth.browser_authorize()
 
