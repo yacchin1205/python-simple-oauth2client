@@ -15,6 +15,12 @@ pip install -r requirements.txt
 
 ## Usage
 
+See help:
+
+```
+python -m simple_oauthclient.cli -h
+```
+
 Get OAuth token by execution the following command:
 
 ```
